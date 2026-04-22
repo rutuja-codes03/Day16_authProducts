@@ -7,19 +7,19 @@ exports.createProduct = async (req, res) => {
   try {
     const { name, price } = req.body;
 
-    // 1️⃣ Validate input
+    //Validate input
     if (!name || !price) {
       return res.status(400).json({ message: "Name and price are required" });
     }
 
-    // 2️⃣ Create product (THIS IS THE CODE YOU ASKED FOR)
+    // Create product
     const newProduct = await Product.create({
       name,
       price,
       createdBy: req.user.id   // << 🔥 THIS IS THE LINE
     });
 
-    // 3️⃣ Send response
+    // Send response
     res.status(201).json({
       message: "Product created successfully",
       product: newProduct,
@@ -30,7 +30,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// 📌 DELETE PRODUCT
+//DELETE PRODUCT
 exports.deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;

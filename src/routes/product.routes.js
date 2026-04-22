@@ -8,10 +8,10 @@ const {
 
 const { verifyToken } = require("../middleware/auth.middleware");
 
-// ✅ ONLY logged-in users can create product
+// ONLY logged-in users can create product
 router.post("/", verifyToken, createProduct);
 
-// ✅ ONLY logged-in users can delete product
+// ONLY logged-in users can delete product
 router.delete("/:id", verifyToken, deleteProduct);
 
 module.exports = router;
