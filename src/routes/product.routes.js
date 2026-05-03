@@ -1,18 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-    getAllProducts,
-    createProduct,
-    deleteProduct
-} = require("../controllers/product.controller");
+const { getAllProducts, createProduct, deleteProduct } =
+  require("../controllers/product.controller");
 
 const { verifyToken } = require("../middleware/auth.middleware");
-router.get("/",verifyToken, getAllProducts);
-// ONLY logged-in users can create product
-router.post("/", verifyToken, createProduct);
 
-// ONLY logged-in users can delete product
-router.delete("/:id", verifyToken, deleteProduct);
+router.get("/", getAllProducts);           // Public
+router.post("/", verifyToken, createProduct); // Protected
+router.delete("/:id", verifyToken, deleteProduct); // Protected
 
 module.exports = router;

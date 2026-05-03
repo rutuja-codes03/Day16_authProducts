@@ -1,57 +1,23 @@
-// src/controllers/product.controller.js
-
 const Product = require("../models/product.model");
 
-//CREATE PRODUCT
-exports.createProduct = async (req, res) => {
-  try {
-    const { name, price } = req.body;
-
-    //Validate input
-    if (!name || !price) {
-      return res.status(400).json({ message: "Name and price are required" });
-    }
-
-    // Create product
-    const newProduct = await Product.create({
-      name,
-      price,
-      createdBy: req.user.id   // << 🔥 THIS IS THE LINE
-    });
-
-    // Send response
-    res.status(201).json({
-      message: "Product created successfully",
-      product: newProduct,
-    });
-  } catch (error) {
-    console.error("Error creating product:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-//DELETE PRODUCT
-exports.deleteProduct = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const deleted = await Product.findByIdAndDelete(id);
-
-    if (!deleted) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-
-    res.status(200).json({ message: "Product deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting product:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
 exports.getAllProducts = async (req, res) => {
-    try {
-        const products = await Product.find();
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+  const products = await Product.find();
+  res.json(products);
+};
+
+exports.createProduct = async (req, res) => {
+  const { name, price } = req.body;
+
+  const product = await Product.create({
+    name,
+    price,
+    createdBy: req.user.id
+  });
+
+  res.status(201).json(product);
+};
+
+exports.deleteProduct = async (req, res) => {
+  await Product.findByIdAndDelete(req.params.id);
+  res.json({ message: "Product deleted" });
 };
