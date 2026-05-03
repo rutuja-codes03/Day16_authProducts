@@ -8,7 +8,7 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", require("./src/routes/auth.routes"));
 app.use("/api/products", require("./src/routes/product.routes"));
-
+app.use("/api", require("./src/routes/auth.routes"));
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log(err));
